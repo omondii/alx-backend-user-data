@@ -38,7 +38,7 @@ class RedactingFormatter(logging.Formatter):
         return format
     
     def get_logger():
-        """ Returns a Logging.logger object """
+        """ Returns a Logging.logger object. Serializes PII fields"""
         logger =logging.getLogger("user_data")
         logger.setLevel(logging.INFO)
 
