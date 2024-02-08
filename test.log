@@ -1,0 +1,8 @@
+DEBUG:root:Add: 10 + 5 = 15
+DEBUG:root:Subtract: 10 - 5 = 5
+DEBUG:root:Multiply: 10 * 5 = 50
+DEBUG:root:Divide: 10 / 5 = 2.0
+DEBUG:root:Add: 15 + 10 = 25
+DEBUG:root:Subtract: 15 - 10 = 5
+DEBUG:root:Multiply: 15 * 10 = 150
+DEBUG:root:Divide: 15 / 10 = 1.5
