@@ -7,7 +7,8 @@ import logging
 def filter_datum(fields, redaction, message, separator):
     """ filter_datum returns the log message obfuscated """
     for field in fields:
-        message = re.sub(f"{field}=[^{separator}]*", f"{field}={redaction}", message)
+        message = re.sub(f"{field}=[^{separator}]*",
+                         f"{field}={redaction}", message)
     return message
 
 
@@ -20,6 +21,7 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     logging.basicConfig(format='')
+
     def __init__(self, fields=None):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         if fields is None:
@@ -29,5 +31,6 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         format = logging.Formatter.format(self, record)
-        format = filter_datum(self.fields, self.REDACTION, format, self.REDACTION)
+        format = filter_datum(self.fields, self.REDACTION, format, self.SEPARATOR)
         return format
+    
