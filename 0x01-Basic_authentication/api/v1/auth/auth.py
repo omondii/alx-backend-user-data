@@ -10,12 +10,16 @@ class Auth:
         """ evaluates if auth is used """
         if path is None:
             return True
-        else:
-            return False
+        elif excluded_paths is None and len(excluded_paths) == 0:
+            return True
+        for p in excluded_paths:
+            if path.rstrip('/') == p.rstrip('/'):
+                return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """ Returns the header of each request """
-        if request == None:
+        if request is None:
             return None
 
     def current_user(self, request=None) -> TypeVar('User'):
