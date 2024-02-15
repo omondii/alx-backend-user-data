@@ -25,6 +25,11 @@ class Auth:
         headers = request.headers
         return headers.get("Authorization")
 
-    def current_user(self, request=None) -> TypeVar('User'): # type: ignore
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """ Returns the current user """
         return None
+
+
+class BasicAuth(Auth):
+    """ BAsic Auth integration """
+    pass
