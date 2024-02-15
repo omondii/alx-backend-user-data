@@ -28,8 +28,3 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """ Returns the current user """
         return None
-
-
-class BasicAuth(Auth):
-    """ BAsic Auth integration """
-    pass
