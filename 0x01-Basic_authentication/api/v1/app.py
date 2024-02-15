@@ -21,6 +21,7 @@ if auth_type == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -39,18 +40,21 @@ def forbidden(error) -> str:
     """ Forbidden error handler """
     return jsonify({"error": "Forbidden"}), 403
 
-@app.before_request()
-def before_re(auth) -> str:
+
+@app.before_request
+def before_re() -> str:
     """ Filter each request """
+    path = request.path
+    noAuth = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+
     if auth is None:
         return
-    
-    accepted = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if request.path not in accepted:
-        if auth.authorization_header(request) is None:
-            abort(401)
-        elif auth.current_user(request) is None:
-            abort(403)
+    if not auth.require_auth(path, noAuth):
+        return
+    if auth.authorization_header(request) is None:
+        abort(401)
+    if auth.current_user(request) is None:
+        abort(403)
 
 
 if __name__ == "__main__":
