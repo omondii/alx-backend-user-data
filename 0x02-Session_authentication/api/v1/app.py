@@ -51,7 +51,8 @@ def forbidden(error) -> str:
 def before_re() -> str:
     """ Filter each request """
     path = request.path
-    noAuth = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/', '/api/v1/auth_session/login/']
+    noAuth = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/',
+              '/api/v1/auth_session/login/']
     request.current_user = auth.current_user(request)
 
     if auth is None:
@@ -62,7 +63,8 @@ def before_re() -> str:
         abort(401)
     if auth.current_user(request) is None:
         abort(403)
-    if auth.authorization_header(request) and auth.session_cookie(request) is None:
+    if auth.authorization_header(request) and\
+            auth.session_cookie(request) is None:
         abort(401)
 
 

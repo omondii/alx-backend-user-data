@@ -30,7 +30,7 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """ Returns the current user """
         return None
-    
+
     def session_cookie(self, request=None):
         """ Returns a cookie value from a request """
         if request is None:
