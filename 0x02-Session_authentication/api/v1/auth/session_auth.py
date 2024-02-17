@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ sessionAuth inherits from Auth """
+from typing import TypeVar
 from api.v1.auth.auth import Auth
 import uuid
 from models.user import User
@@ -23,5 +24,17 @@ class SessionAuth(Auth):
         if session_id is None or not isinstance(session_id, str):
             return None
         else:
-            UserId = self.user_id_by_session_id.get(session_id)
-            return UserId
+            user_id = self.user_id_by_session_id.get(session_id)
+            return user_id
+        
+    def current_user(self, request=None):
+        """ Returns the User instance based on cookie """
+        sess_cookie = self.session_cookie(request)
+        if sess_cookie is None:
+            return None
+        else:
+            user_id = self.user_id_for_session_id(sess_cookie)
+            if user_id is None:
+                return None
+            else:
+                return User.get(user_id)
