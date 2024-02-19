@@ -8,6 +8,7 @@ import os
 import mysql.connector
 from mysql.connector.connection import MySQLConnection
 from mysql.connector import Error
+import bcrypt
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
