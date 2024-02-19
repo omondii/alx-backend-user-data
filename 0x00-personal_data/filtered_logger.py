@@ -4,6 +4,10 @@ import re
 import logging
 import sys
 from typing import List
+import os
+import mysql.connector
+from mysql.connector.connection import MySQLConnection
+from mysql.connector import Error
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
@@ -54,3 +58,19 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Connection to a secure MySQL db """
+    try:
+        db = 'holberton'
+        user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+        password = os.getenv('PERSONAL_DATA_DB_PASSWORD')
+        host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+        connection = mysql.connector.connect(host=host, user=user,
+                                             password=password, db=db)
+        if connection.is_connected():
+            print("Db access Granted!")
+        return connection
+    except Error as e:
+        print(f"Error While connecting to the db: {e}")
