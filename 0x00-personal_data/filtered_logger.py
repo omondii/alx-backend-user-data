@@ -14,6 +14,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
                          f"{field}={redaction}", message)
     return message
 
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -22,8 +23,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-
-    def __init__(self, fields=None):
+    def __init__(self, fields: List[str] = None):
         """ Initialize the formatter class """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         if fields is None:
@@ -31,16 +31,16 @@ class RedactingFormatter(logging.Formatter):
         else:
             self.fields = fields
 
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record: List[str]) -> str:
         """ Formats the logs according to specified criteria """
         format = logging.Formatter.format(self, record)
         format = filter_datum(self.fields, self.REDACTION,
                               format, self.SEPARATOR)
         return format
-    
+
     def get_logger():
         """ Returns a Logging.logger object. Serializes PII fields"""
-        logger =logging.getLogger("user_data")
+        logger = logging.getLogger("user_data")
         logger.setLevel(logging.INFO)
 
         stream_handler = logging.StreamHandler(sys.stdout)
