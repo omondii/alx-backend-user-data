@@ -3,15 +3,16 @@
 import re
 import logging
 import sys
+from typing import List
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     """ filter_datum returns the log message obfuscated """
     for field in fields:
         message = re.sub(f"{field}=[^{separator}]*",
                          f"{field}={redaction}", message)
     return message
-
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
