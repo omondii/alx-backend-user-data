@@ -3,7 +3,7 @@
 import bcrypt
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: bytes) -> bytes:
     """ Encrypts passwords using the bycrpt package """
     if password is None:
         return None
