@@ -67,6 +67,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
         password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
         host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+
         connection = mysql.connector.connect(host=host, user=user,
                                              password=password, db=db)
         if connection.is_connected():
@@ -74,3 +75,19 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         return connection
     except Error as e:
         print(f"Error While connecting to the db: {e}")
+
+
+def main() -> None:
+    """ Create connection to db and retrieve data from the users table """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    for row in cursor:
+        if row in PII_FIELDS:
+            print(row)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
