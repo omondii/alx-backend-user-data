@@ -1,4 +1,4 @@
-#!/usr/bin/activate
+#!/usr/bin/env python3
 """DB module
 """
 from sqlalchemy import create_engine
@@ -54,3 +54,17 @@ class DB:
             return result
         except InvalidRequestError:
             raise
+
+    def update_user(self, user_id: int = None, **kwargs) -> None:
+        """ Uses find_user_by to locate & update user attributes """
+        try:
+            user = self.find_user_by(id=user_id)
+        except NoResultFound:
+            return None
+
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError
+        self._session.commit()

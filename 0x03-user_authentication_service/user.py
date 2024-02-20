@@ -1,4 +1,4 @@
-#!/usr/bin/env/python3
+#!/usr/bin/env python3
 """ User model """
 import sqlalchemy
 from sqlalchemy import create_engine
