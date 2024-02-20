@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """DB module
+    Creates a connection to a db
+    Has db ops
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -15,6 +17,7 @@ from user import Base
 
 class DB:
     """DB class
+    Defined db operations. CRUD
     """
 
     def __init__(self) -> None:
@@ -28,6 +31,7 @@ class DB:
     @property
     def _session(self) -> Session:
         """Memoized session object
+        creates a db session
         """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
@@ -38,11 +42,11 @@ class DB:
         """ Saves a user to the db """
         if email is None or hashed_password is None:
             return None
-        
+
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
         self._session.commit()
-        
+
         return new_user
 
     def find_user_by(self, **kwargs) -> Type[User]:
