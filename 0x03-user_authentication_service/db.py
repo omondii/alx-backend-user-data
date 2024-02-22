@@ -52,7 +52,8 @@ class DB:
         """ Returns the first Row in users table as filtered by input args """
         try:
             for key, value in kwargs.items():
-                query = self._session.query(User).filter_by(**{key: value}).one()
+                query = self._session.query(User).filter_by(**{key: value})\
+                    .one()
                 return query
         except NoResultFound:
             raise NoResultFound
@@ -61,14 +62,13 @@ class DB:
 
     def update_user(self, user_id: int = None, **kwargs) -> None:
         """ Uses find_user_by to locate & update user attributes """
-        try:
-            user = self.find_user_by(id=user_id)
-        except NoResultFound:
-            return None
+        user = self.find_user_by(id=user_id)
+        if user:
+            for key, value in kwargs.items():
+                if hasattr(user, key):
+                    setattr(user, key, value)
+                    self._session.commit()
+                    return None
+                else:
+                    raise ValueError
 
-        for key, value in kwargs.items():
-            if hasattr(user, key):
-                setattr(user, key, value)
-            else:
-                raise ValueError
-        self._session.commit()
