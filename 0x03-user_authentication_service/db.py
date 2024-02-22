@@ -52,9 +52,8 @@ class DB:
         """ Returns the first Row in users table as filtered by input args """
         try:
             for key, value in kwargs.items():
-                query = self.__session.query(User).filter_by(**{key: value})
-                user = query.one()
-                return user
+                query = self._session.query(User).filter_by(**{key: value}).one()
+                return query
         except NoResultFound:
             raise NoResultFound
         except InvalidRequestError:
