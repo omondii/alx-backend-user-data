@@ -60,7 +60,7 @@ class DB:
         except InvalidRequestError:
             raise InvalidRequestError
 
-    def update_user(self, user_id: int = None, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """ Uses find_user_by to locate & update user attributes """
         user = self.find_user_by(id=user_id)
         if user:
