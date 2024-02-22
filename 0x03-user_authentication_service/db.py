@@ -48,7 +48,7 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs) -> Type[User]:
+    def find_user_by(self, **kwargs) -> User:
         """ Returns the first Row in users table as filtered by input args """
         try:
             result = self._session.query(User).filter_by(**kwargs).first()
