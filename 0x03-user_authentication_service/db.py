@@ -51,12 +51,14 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """ Returns the first Row in users table as filtered by input args """
         try:
-            result = self._session.query(User).filter_by(**kwargs).first()
-            if result is None:
-                return NoResultFound
-            return result
+            for key, value in kwargs.items():
+                query = self.__session.query(User).filter_by(**{key: value})
+                user = query.one()
+                return user
+        except NoResultFound:
+            raise NoResultFound
         except InvalidRequestError:
-            raise
+            raise InvalidRequestError
 
     def update_user(self, user_id: int = None, **kwargs) -> None:
         """ Uses find_user_by to locate & update user attributes """
