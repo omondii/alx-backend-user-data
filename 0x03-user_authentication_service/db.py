@@ -10,8 +10,6 @@ from sqlalchemy.orm.session import Session
 from typing import Type
 from user import User
 from sqlalchemy.exc import InvalidRequestError, NoResultFound
-
-
 from user import Base
 
 
@@ -56,9 +54,9 @@ class DB:
                     .one()
                 return query
         except NoResultFound:
-            raise NoResultFound
+            raise NoResultFound("Not Found!")
         except InvalidRequestError:
-            raise InvalidRequestError
+            raise InvalidRequestError("Invalid Query")
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """ Uses find_user_by to locate & update user attributes """
@@ -70,4 +68,4 @@ class DB:
                     self._session.commit()
                     return None
                 else:
-                    raise ValueError
+                    raise ValueError("No User with details")
