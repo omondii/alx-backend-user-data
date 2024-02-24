@@ -13,6 +13,7 @@ def index():
     """Returns a json payload"""
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route("/users", methods=['POST'])
 def users():
     email = request.form.get('email')
