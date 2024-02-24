@@ -50,9 +50,9 @@ def logout() -> str:
                 AUTH.destroy_session(user.id)
                 return redirect('/')
             else:
-                abort(404)
+                abort(403)
     except ValueError:
-        abort(404)
+        abort(403)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5000',
