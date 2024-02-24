@@ -72,8 +72,9 @@ def get_reset_password_token():
     """ Returns a reset token """
     email = request.form.get('email')
     if email:
-        token = AUTH.get_reset_password_token(email)
-        if ValueError:
+        try:
+            token = AUTH.get_reset_password_token(email)
+        except ValueError:
             abort(403)
         return jsonify({"email": email, "reset_token": token}), 200
 
